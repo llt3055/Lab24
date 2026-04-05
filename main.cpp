@@ -3,6 +3,8 @@
 #include <iomanip>
 #include <list>
 #include "Goat.h"
+#include <ctime>
+
 using namespace std;
 
 const int SZ_NAMES = 200, SZ_COLORS = 25, MAX_AGE = 20;
@@ -15,6 +17,7 @@ int main_menu();
 
 int main() {
     srand(time(0));
+    list<Goat> trip;
     bool again;
 
     // read & populate arrays for names and colors
@@ -29,9 +32,81 @@ int main() {
     while (fin1 >> colors[i++]);
     fin1.close();
 
-
-
+    // Task Two:Write a GM3K1 engine that loops on this menu
+    int choice;
+    do {
+        choice = main_menu();
+        switch (choice) {
+            case 1: add_goat(trip, names, colors); break;
+            case 2: delete_goat(trip); break;
+            case 3: display_trip(trip); break;
+        }
+    } while (choice != 4);
 
     return 0;
 }
+
+    int main_menu() {
+    int choice;
+    cout << "\n*** GOAT MANAGER 3001 ***" << endl;
+    cout << "[1] Add a goat\n[2] Delete a goat\n[3] List goats\n[4] Quit" << endl;
+    cout << "Choice --> ";
+    while (!(cin >> choice) || choice < 1 || choice > 4) {
+        cout << "Invalid. Enter 1-4: ";
+        cin.clear();
+        cin.ignore(1000, '\n');
+    }
+    return choice;
+}
+
+// Task Three
+void add_goat(list<Goat> &trip, string names[], string colors[]) {
+    string n = names[rand() % SZ_NAMES];
+    string c = colors[rand() % SZ_COLORS];
+    int a = rand() % (MAX_AGE + 1);
+    trip.push_back(Goat(n, a, c));
+    cout << "Added: " << n << " (" << a << ", " << c << ")" << endl;
+}
+
+// Task Three & Four:
+void display_trip(list<Goat> trip) {
+    if (trip.empty()) {
+        cout << "List is empty." << endl;
+        return;
+    }
+    int count = 1;
+    cout << "\n--- Current Trip ---" << endl;
+    for (const auto &g : trip) {
+        cout << "[" << count++ << "] " << g.get_name() 
+             << " (" << g.get_age() << ", " << g.get_color() << ")" << endl;
+    }
+}
+    
+    // Task Three:
+   void delete_goat(list<Goat> &trip) {
+    if (trip.empty()) {
+        cout << "Nothing to delete." << endl;
+        return;
+    }
+    int index = select_goat(trip);
+    auto it = trip.begin();
+    advance(it, index - 1);
+    cout << "Deleted: " << it->get_name() << endl;
+    trip.erase(it);
+}
+
+// Helper function to handle user selection with input validation
+int select_goat(list<Goat> trip) {
+    display_trip(trip);
+    int sel;
+    cout << "Select goat #: ";
+   while (!(cin >> sel) || sel < 1 || sel > trip.size()) {
+        cout << "Invalid. Try again: ";
+        cin.clear();            // Clear error flags
+        cin.ignore(1000, '\n'); // Discard bad input 
+    }
+    return sel;
+}
+
+
 
