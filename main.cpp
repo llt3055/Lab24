@@ -9,10 +9,10 @@ using namespace std;
 
 const int SZ_NAMES = 200, SZ_COLORS = 25, MAX_AGE = 20;
 
-int select_goat(set<Goat> trip);
+int select_goat(const set<Goat> &trip); 
 void delete_goat(set<Goat> &trip);
 void add_goat(set<Goat> &trip, string [], string []);
-void display_trip(set<Goat> trip);
+void display_trip(const set<Goat> &trip);
 int main_menu();
 
 int main() {
@@ -64,7 +64,7 @@ void add_goat(set<Goat> &trip, string names[], string colors[]) {
     string n = names[rand() % SZ_NAMES];
     string c = colors[rand() % SZ_COLORS];
     int a = rand() % (MAX_AGE + 1);
-    trip.push_back(Goat(n, a, c));
+    trip.insert(Goat(n, a, c));
     cout << "Added: " << n << " (" << a << ", " << c << ")" << endl;
 }
 
