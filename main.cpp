@@ -60,7 +60,7 @@ int main() {
 }
 
 // Task Three
-void add_goat(list<Goat> &trip, string names[], string colors[]) {
+void add_goat(set<Goat> &trip, string names[], string colors[]) {
     string n = names[rand() % SZ_NAMES];
     string c = colors[rand() % SZ_COLORS];
     int a = rand() % (MAX_AGE + 1);
@@ -69,7 +69,7 @@ void add_goat(list<Goat> &trip, string names[], string colors[]) {
 }
 
 // Task Three & Four:
-void display_trip(list<Goat> trip) {
+void display_trip(const set<Goat> &trip) {
     if (trip.empty()) {
         cout << "List is empty." << endl;
         return;
@@ -83,7 +83,7 @@ void display_trip(list<Goat> trip) {
 }
     
     // Task Three:
-   void delete_goat(list<Goat> &trip) {
+   void delete_goat(set<Goat> &trip) {
     if (trip.empty()) {
         cout << "Nothing to delete." << endl;
         return;
@@ -96,7 +96,7 @@ void display_trip(list<Goat> trip) {
 }
 
 // Helper function to handle user selection with input validation
-int select_goat(list<Goat> trip) {
+int select_goat(const set<Goat> &trip) {
     display_trip(trip);
     int sel;
     cout << "Select goat #: ";
